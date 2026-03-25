@@ -21,7 +21,7 @@ O sistema foi concebido para resolver problemas comuns de logística em bibliote
 
 * **SQL:** Linguagem para manipulação e consulta de dados.
 * **Modelagem Relacional:** Estrutura baseada em normalização de dados.
-* **PostgreSQL: sistema de banco**
+* **PostgreSQL: Sistema de banco**
 
 ## 📂 Estrutura do Banco de Dados
 
@@ -42,3 +42,5 @@ FROM Emprestimos E
 JOIN Livros L ON E.id_livro = L.id
 JOIN Usuarios U ON E.id_usuario = U.id
 WHERE E.status = 'Ativo';
+
+🗂️ Organização do Repositório
