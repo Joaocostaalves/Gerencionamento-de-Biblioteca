@@ -42,10 +42,11 @@ FROM Emprestimos E
 JOIN Livros L ON E.id_livro = L.id
 JOIN Usuarios U ON E.id_usuario = U.id
 WHERE E.status = 'Ativo';
+```
 
 🗂️ Organização do Repositório
 
-``´´
+```
  ├── /ddl
     │   ├── 01_criacao_tabelas.sql
     │   ├── 02_inserir_dados.sql
