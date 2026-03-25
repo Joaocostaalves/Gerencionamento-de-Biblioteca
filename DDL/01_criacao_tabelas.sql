@@ -94,4 +94,4 @@ create table books (
     constraint pk_id_book primary key (id),
     constraint uq_book_isbn unique (isbn),
     constraint fk_book_publisher foreign key (publisher_id) references publishers(id)
-);
+); 
