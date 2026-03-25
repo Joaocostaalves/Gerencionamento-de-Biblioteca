@@ -31,9 +31,6 @@ O banco de dados é composto pelas seguintes entidades principais:
 * `Usuarios`: Nome, CPF e Endereço.
 * `Emprestimos`: Data de saída, data prevista e status.
 
-> [!TIP]
-> **Dica:** Se você tiver um diagrama de Entidade-Relacionamento (DER), coloque a imagem aqui para facilitar a visualização da arquitetura!
-
 ## 💻 Exemplo de Consulta
 
 Aqui está um exemplo de uma das consultas desenvolvidas para o projeto:
