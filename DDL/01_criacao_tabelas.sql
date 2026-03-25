@@ -1,3 +1,4 @@
+-- limpeza do banco 
 drop table if exists fines cascade;
 drop table if exists loan_items cascade;
 drop table if exists reservations cascade;
@@ -11,8 +12,6 @@ drop table if exists authors cascade;
 drop table if exists categories cascade;
 drop table if exists publishers cascade;
 drop table if exists user_types cascade;
-
-============================================================
 
 create table publishers (
     id      int not null,
@@ -94,4 +93,75 @@ create table books (
     constraint pk_id_book primary key (id),
     constraint uq_book_isbn unique (isbn),
     constraint fk_book_publisher foreign key (publisher_id) references publishers(id)
-); 
+);
+
+create table book_copies (
+    id               int not null,
+    book_id          int not null,
+    barcode          varchar(50) not null,
+    acquisition_date date,
+    status           varchar(30) not null default 'disponivel',
+    location         varchar(100),
+    notes            varchar(255),
+    constraint pk_id_book_copy primary key (id),
+    constraint uq_copy_barcode unique (barcode),
+    constraint fk_copy_book foreign key (book_id) references books(id) on delete cascade
+);
+
+create table author_book (
+    author_id int not null,
+    book_id   int not null,
+    constraint pk_author_book primary key (author_id, book_id),
+    constraint fk_ab_author foreign key (author_id) references authors(id) on delete cascade,
+    constraint fk_ab_book   foreign key (book_id)   references books(id)   on delete cascade
+);
+
+create table loans (
+    id          int not null,
+    user_id     int not null,
+    employee_id int,
+    loan_date   date not null,
+    due_date    date not null,
+    return_date date,
+    status      varchar(30) not null default 'ativo',
+    notes       varchar(255),
+    constraint pk_id_loan primary key (id),
+    constraint fk_loan_user     foreign key (user_id)     references users(id)     on delete restrict,
+    constraint fk_loan_employee foreign key (employee_id) references employees(id) on delete set null
+);
+
+create table loan_items (
+    id           int not null,
+    loan_id      int not null,
+    book_copy_id int not null,
+    item_status  varchar(30) not null default 'emprestado',
+    constraint pk_id_loan_item primary key (id),
+    constraint fk_li_loan foreign key (loan_id)      references loans(id)       on delete cascade,
+    constraint fk_li_copy foreign key (book_copy_id) references book_copies(id) on delete restrict
+);
+
+create table reservations (
+    id               int not null,
+    user_id          int not null,
+    book_id          int not null,
+    reservation_date date not null,
+    expiration_date  date,
+    status           varchar(30) not null default 'pendente',
+    constraint pk_id_reservation primary key (id),
+    constraint fk_res_user foreign key (user_id) references users(id) on delete restrict,
+    constraint fk_res_book foreign key (book_id) references books(id) on delete restrict
+);
+
+create table fines (
+    id          int not null,
+    user_id     int not null,
+    loan_id     int,
+    amount      decimal(10,2) not null,
+    reason      varchar(120) not null,
+    issued_date date not null,
+    is_paid     boolean default false,
+    paid_date   date,
+    constraint pk_id_fine primary key (id),
+    constraint fk_fine_user foreign key (user_id) references users(id) on delete restrict,
+    constraint fk_fine_loan foreign key (loan_id) references loans(id) on delete set null
+);
