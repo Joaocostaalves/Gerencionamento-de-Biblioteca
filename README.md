@@ -36,12 +36,10 @@ O banco de dados é composto pelas seguintes entidades principais:
 Aqui está um exemplo de uma das consultas desenvolvidas para o projeto:
 
 ```sql
--- Exemplo: Consultar livros atualmente emprestados
-SELECT L.titulo, U.nome AS usuario, E.data_emprestimo
-FROM Emprestimos E
-JOIN Livros L ON E.id_livro = L.id
-JOIN Usuarios U ON E.id_usuario = U.id
-WHERE E.status = 'Ativo';
+-- 01. INNER JOIN – Título do livro e nome da editora responsável
+SELECT b.title AS "Título do Livro", p.name AS "Editora"
+FROM books b
+INNER JOIN publishers p ON b.publisher_id = p.id;
 ```
 
 🗂️ Organização do Repositório
